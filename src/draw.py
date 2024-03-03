@@ -3,8 +3,11 @@ from PIL import Image
 from PIL import ImageFont
 from PIL import ImageDraw
 from datetime import datetime
+import requests
+from io import BytesIO
 
-import epaper
+
+
 
 EPD_WIDTH = 264
 EPD_HEIGHT = 176
@@ -15,11 +18,25 @@ def draw_forecast( forecast_data ):
     # font = ImageFont.truetype('/usr/share/fonts/truetype/freefont/FreeMonoBold.ttf', 18)
     today_date = datetime.now().strftime('%Y-%m-%d')
 
+
+    # Download the image
+
+
+    # Add the image to the drawing
+    
+
+
     i = 0
     for period in forecast_data['properties']['periods']:
         if period['startTime'].startswith(today_date):
             print(f"  {period['name']}: {period['detailedForecast']}")
             print( period )
+
+            if i == 0:
+                weather_icon_url = period['icon']
+                response = requests.get(weather_icon_url)
+                weather_icon = Image.open(BytesIO(response.content))
+                image.paste(weather_icon, (EPD_WIDTH - weather_icon.width, int(EPD_HEIGHT/2)))
 
 
             draw.text((5, i * 40), period['name'], fill = 0)
@@ -31,6 +48,8 @@ def draw_forecast( forecast_data ):
 
 
             i = i + 1
+
+
     # draw.rectangle((0, 76, 176, 96), fill = 0)
     # # draw.text((18, 80), 'Hello world!', font = font, fill = 255)
     # draw.line((10, 130, 10, 180), fill = 0)
@@ -44,12 +63,22 @@ def draw_forecast( forecast_data ):
     # draw.rectangle((10, 200, 50, 250), fill = 0)
 
 
-    epd = epaper.epaper('epd2in7').EPD()
 
-    epd.init()
 
-    # https://github.com/waveshareteam/e-Paper/blob/60762ac5a3787ca7c3080d0e1f256a32ec3147e6/RaspberryPi_JetsonNano/python/examples/epd_2in7_test.py
+    # # https://github.com/waveshareteam/e-Paper/blob/60762ac5a3787ca7c3080d0e1f256a32ec3147e6/RaspberryPi_JetsonNano/python/examples/epd_2in7_test.py
     
-    epd.display(epd.getbuffer(image))
+    render_to_epaper(image)
 
     image.save("output.bmp")
+
+
+import epaper
+def render_to_epaper( image )
+    epd = epaper.epaper('epd2in7    ').EPD()
+
+    epd.init()
+    epd.display(epd.getbuffer(image))
+
+
+# HOW TO MAKE THE BUTTONS DO STUDD
+#https://dev.to/ranewallin/getting-started-with-the-waveshare-2-7-epaper-hat-on-raspberry-pi-41m8
