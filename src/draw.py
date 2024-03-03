@@ -44,7 +44,7 @@ def draw_forecast( forecast_data ):
     # draw.rectangle((10, 200, 50, 250), fill = 0)
 
 
-    epd = epaper.epaper('epd7in5').EPD()
+    epd = epaper.epaper('epd2in7').EPD()
 
     epd.init()
 
