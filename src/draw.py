@@ -24,6 +24,9 @@ def draw_forecast( forecast_data ):
 
     # Add the image to the drawing
     
+    megafont = ImageFont.truetype("./fonts/roboto/Roboto-Regular.ttf",  48)
+
+    mediumfont = ImageFont.truetype("./fonts/roboto/Roboto-Regular.ttf",  30)
 
 
     i = 0
@@ -44,8 +47,15 @@ def draw_forecast( forecast_data ):
             detailed_forecast_lines = period['detailedForecast'].split('. ', 1)
             for j, line in enumerate(detailed_forecast_lines):
                 if line:  # Check if line is not empty
+
+
                     draw.text((15, i * 40 + 10 + (j * 10)), line + ('.' if j == 0 else ''), fill = 0)
 
+
+            if i==0:
+                draw.text((15, 110 ), str(period['temperature']), fill =0, font=megafont )
+
+                draw.text((70, 125 ), str(period['shortForecast']), fill =0, font=mediumfont )
 
             i = i + 1
 
