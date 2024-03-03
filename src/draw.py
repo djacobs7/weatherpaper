@@ -47,6 +47,9 @@ def draw_forecast( forecast_data ):
     epd = epaper.epaper('epd7in5').EPD()
 
     epd.init()
-    epd.display_frame(epd.get_frame_buffer(image))
+
+    # https://github.com/waveshareteam/e-Paper/blob/60762ac5a3787ca7c3080d0e1f256a32ec3147e6/RaspberryPi_JetsonNano/python/examples/epd_2in7_test.py
+    
+    epd.display(epd.getbuffer(image))
 
     image.save("output.bmp")
