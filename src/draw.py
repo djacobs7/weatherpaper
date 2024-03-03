@@ -4,6 +4,7 @@ from PIL import ImageFont
 from PIL import ImageDraw
 from datetime import datetime
 
+import epaper
 
 EPD_WIDTH = 264
 EPD_HEIGHT = 176
@@ -41,5 +42,11 @@ def draw_forecast( forecast_data ):
     # draw.arc((90, 190, 150, 250), 0, 360, fill = 0)
     # draw.chord((90, 120, 150, 180), 0, 360, fill = 0)
     # draw.rectangle((10, 200, 50, 250), fill = 0)
+
+
+    epd = epaper.epaper('epd7in5').EPD()
+
+    epd.init()
+    epd.display_frame(epd.get_frame_buffer(image))
 
     image.save("output.bmp")
