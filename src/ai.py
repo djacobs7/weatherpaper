@@ -2,8 +2,10 @@ import requests
 from datetime import datetime
 from draw import draw_forecast
 
-def get_forecast_data(api_endpoint, latitude, longitude):
+def get_forecast_data( latitude, longitude):
     # Construct the API URL
+    api_endpoint = "https://api.weather.gov"
+
     url = f"{api_endpoint}/points/{latitude},{longitude}"
 
     # Make the API request
@@ -33,16 +35,16 @@ def get_forecast_data(api_endpoint, latitude, longitude):
         print(f"Failed to fetch weather data. Status code: {response.status_code}")
 
 # Latitude and longitude for a location (e.g., Baltimore)
-latitude = 39.2904
-longitude = -76.6122
 
-# API endpoint for weather.gov
-api_endpoint = "https://api.weather.gov"
+def get_baltimore_forecast():
+    latitude = 39.2904
+    longitude = -76.6122
+    get_forecast_data( latitude, longitude)
 
 # Example usage
 
 
-def render_forecast_data(forecast_data):
+def print_forecast_data(forecast_data):
     # Extract today's date
     today_date = datetime.now().strftime('%Y-%m-%d')
 
@@ -54,7 +56,8 @@ def render_forecast_data(forecast_data):
 
 
     
-forecast_data = get_forecast_data(api_endpoint, latitude, longitude)
-render_forecast_data( forecast_data)
+forecast_data = get_baltimore_forecast()
+print_forecast_data( forecast_data)
 
 draw_forecast( forecast_data)
+
