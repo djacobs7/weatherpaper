@@ -17,7 +17,10 @@ mediumfont = ImageFont.truetype("./fonts/roboto/Roboto-Regular.ttf",  30)
 
 
 def draw_clock():
+
+
     image = Image.new('1', (EPD_WIDTH, EPD_HEIGHT), 255)    # 255: clear the image with white
+    image_red = Image.new('1', (EPD_WIDTH, EPD_HEIGHT), 255)    # 255: clear the image with white
     current_time = datetime.now().strftime('%I:%M %p')
     draw = ImageDraw.Draw(image)
     draw.text((10, 10), current_time, fill = 0, font=megafont)
@@ -27,7 +30,7 @@ def draw_clock():
 
     draw.text((10, 90), "Baltimore", fill = 0, font=megafont)
 
-    render_to_epaper(image)
+    render_to_epaper(image, image_red)
 
     image.save("output.bmp")
 
