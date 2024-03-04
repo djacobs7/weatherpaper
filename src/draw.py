@@ -87,5 +87,9 @@ def render_to_epaper( image_black, image_red= None):
     epd = epaper.epaper('epd2in7b').EPD()
 
     epd.init()
-    epd.display(epd.getbuffer(image_black), epd.getbuffer(image_red))
+
+    if image_red == None:
+        epd.display(epd.getbuffer(image_black))
+    else: 
+        epd.display(epd.getbuffer(image_black), epd.getbuffer(image_red))
 
