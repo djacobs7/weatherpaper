@@ -27,7 +27,6 @@ def get_forecast_data( latitude, longitude):
 
 
             # Display detailed forecast for today
-
             return forecast_data
         else:
             print(f"Failed to fetch forecast data. Status code: {forecast_response.status_code}")
@@ -39,7 +38,7 @@ def get_forecast_data( latitude, longitude):
 def get_baltimore_forecast():
     latitude = 39.2904
     longitude = -76.6122
-    get_forecast_data( latitude, longitude)
+    return get_forecast_data( latitude, longitude)
 
 # Example usage
 
@@ -58,6 +57,5 @@ def print_forecast_data(forecast_data):
     
 forecast_data = get_baltimore_forecast()
 print_forecast_data( forecast_data)
-
 draw_forecast( forecast_data)
 
