@@ -31,3 +31,5 @@ def setupButtons():
     btn_4.when_pressed = handleButton4
 
     pause()
+
+setupButtons()
