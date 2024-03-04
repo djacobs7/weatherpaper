@@ -95,7 +95,7 @@ def draw_forecast( forecast_data ):
     image.save("output.bmp")
 
 
-# import epaper
+import epaper
 def render_to_epaper( image_black, image_red= None):
     epd = epaper.epaper('epd2in7b').EPD()
 
