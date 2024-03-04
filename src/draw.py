@@ -6,6 +6,7 @@ from datetime import datetime
 import requests
 from io import BytesIO
 
+from ai import write_weather_poem
 
 
 
@@ -15,25 +16,34 @@ EPD_HEIGHT = 176
 megafont = ImageFont.truetype("./fonts/roboto/Roboto-Regular.ttf",  48)
 mediumfont = ImageFont.truetype("./fonts/roboto/Roboto-Regular.ttf",  30)
 
+smallfont = ImageFont.truetype("./fonts/roboto/Roboto-Regular.ttf",  20)
 
-def draw_clock():
 
-
+def draw_weather_poem(forecast_data):
     image = Image.new('1', (EPD_WIDTH, EPD_HEIGHT), 255)    # 255: clear the image with white
     image_red = Image.new('1', (EPD_WIDTH, EPD_HEIGHT), 255)    # 255: clear the image with white
     current_time = datetime.now().strftime('%I:%M %p')
     draw = ImageDraw.Draw(image)
-    draw.text((10, 10), current_time, fill = 0, font=megafont)
+
     today_date = datetime.now().strftime('%Y-%m-%d')
 
-    draw.text((10, 50), today_date, fill = 0, font=megafont)
 
-    draw.text((10, 90), "Baltimore", fill = 0, font=megafont)
+    i = 0
+    for period in forecast_data['properties']['periods']:
+        if period['startTime'].startswith(today_date):
+            print(f"  {period['name']}: {period['detailedForecast']}")
+            print( period )
+
+            if i == 0:
+                detailedForecast = period['detailedForecast']
+                text = write_weather_poem(detailedForecast)
+                print(text)
+        i = i+ 1
+
+    draw.text( (10,10), text, font=smallfont, fill =0 )
 
     render_to_epaper(image, image_red)
-
-    image.save("output.bmp")
-
+    image.save("weatherpoem.bmp")
 
 
 def draw_forecast( forecast_data ):
@@ -80,12 +90,12 @@ def draw_forecast( forecast_data ):
 
     # # https://github.com/waveshareteam/e-Paper/blob/60762ac5a3787ca7c3080d0e1f256a32ec3147e6/RaspberryPi_JetsonNano/python/examples/epd_2in7_test.py
     
-    render_to_epaper(image, image_red)
+    # render_to_epaper(image, image_red)
 
     image.save("output.bmp")
 
 
-import epaper
+# import epaper
 def render_to_epaper( image_black, image_red= None):
     epd = epaper.epaper('epd2in7b').EPD()
 
