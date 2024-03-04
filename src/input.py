@@ -2,7 +2,7 @@ from gpiozero import Button
 from signal import pause
 
 from ai import get_baltimore_forecast
-from draw import draw_forecast
+from draw import draw_forecast, draw_clock
 
 btn_1 = Button(5)
 btn_2 = Button(6)
@@ -15,6 +15,7 @@ def handleButton1():
     print(" button 1")
 
 def handleButton2():
+    draw_clock()
     print(" button 2")
 
 def handleButton3():

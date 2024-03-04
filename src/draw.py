@@ -12,6 +12,27 @@ from io import BytesIO
 EPD_WIDTH = 264
 EPD_HEIGHT = 176
 
+megafont = ImageFont.truetype("./fonts/roboto/Roboto-Regular.ttf",  48)
+mediumfont = ImageFont.truetype("./fonts/roboto/Roboto-Regular.ttf",  30)
+
+
+def draw_clock():
+    image = Image.new('1', (EPD_WIDTH, EPD_HEIGHT), 255)    # 255: clear the image with white
+    current_time = datetime.now().strftime('%I:%M %p')
+    draw = ImageDraw.Draw(image)
+    draw.text((10, 10), current_time, fill = 0, font=megafont)
+    today_date = datetime.now().strftime('%Y-%m-%d')
+
+    draw.text((10, 50), today_date, fill = 0, font=megafont)
+
+    draw.text((10, 90), "Baltimore", fill = 0, font=megafont)
+
+    render_to_epaper(image)
+
+    image.save("output.bmp")
+
+
+
 def draw_forecast( forecast_data ):
     image = Image.new('1', (EPD_WIDTH, EPD_HEIGHT), 255)    # 255: clear the image with white
 
@@ -22,8 +43,6 @@ def draw_forecast( forecast_data ):
     today_date = datetime.now().strftime('%Y-%m-%d')
 
     
-    megafont = ImageFont.truetype("./fonts/roboto/Roboto-Regular.ttf",  48)
-    mediumfont = ImageFont.truetype("./fonts/roboto/Roboto-Regular.ttf",  30)
 
 
     i = 0
@@ -64,7 +83,7 @@ def draw_forecast( forecast_data ):
 
 
 import epaper
-def render_to_epaper( image_black, image_red ):
+def render_to_epaper( image_black, image_red= None):
     epd = epaper.epaper('epd2in7b').EPD()
 
     epd.init()
