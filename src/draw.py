@@ -88,7 +88,7 @@ def draw_forecast( forecast_data ):
 
 import epaper
 def render_to_epaper( image_black, image_red ):
-    epd = epaper.epaper('epd2in7').EPD()
+    epd = epaper.epaper('epd2in7b').EPD()
 
     epd.init()
     epd.display(epd.getbuffer(image_black), epd.getbuffer(image_red))
