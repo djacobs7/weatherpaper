@@ -56,7 +56,6 @@ def print_forecast_data(forecast_data):
 
     
 forecast_data = get_baltimore_forecast()
-# print_forecast_data( forecast_data)
-draw_forecast( forecast_data)
-
+print_forecast_data( forecast_data)
+# draw_forecast( forecast_data)
 draw_weather_poem( forecast_data)
