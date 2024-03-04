@@ -14,6 +14,10 @@ EPD_HEIGHT = 176
 
 def draw_forecast( forecast_data ):
     image = Image.new('1', (EPD_WIDTH, EPD_HEIGHT), 255)    # 255: clear the image with white
+
+    image_red = Image.new('1', (EPD_WIDTH, EPD_HEIGHT), 255)    # 255: clear the image with white
+    draw_red = ImageDraw.Draw(image_red)
+
     draw = ImageDraw.Draw(image)
     # font = ImageFont.truetype('/usr/share/fonts/truetype/freefont/FreeMonoBold.ttf', 18)
     today_date = datetime.now().strftime('%Y-%m-%d')
@@ -39,7 +43,7 @@ def draw_forecast( forecast_data ):
                 weather_icon_url = period['icon']
                 response = requests.get(weather_icon_url)
                 weather_icon = Image.open(BytesIO(response.content))
-                image.paste(weather_icon, (EPD_WIDTH - weather_icon.width, int(EPD_HEIGHT/2)))
+                image_red.paste(weather_icon, (EPD_WIDTH - weather_icon.width, int(EPD_HEIGHT/2)))
 
 
             draw.text((5, i * 40), period['name'], fill = 0)
@@ -77,17 +81,17 @@ def draw_forecast( forecast_data ):
 
     # # https://github.com/waveshareteam/e-Paper/blob/60762ac5a3787ca7c3080d0e1f256a32ec3147e6/RaspberryPi_JetsonNano/python/examples/epd_2in7_test.py
     
-    render_to_epaper(image)
+    render_to_epaper(image, image_red)
 
     image.save("output.bmp")
 
 
 import epaper
-def render_to_epaper( image ):
+def render_to_epaper( image_black, image_red ):
     epd = epaper.epaper('epd2in7').EPD()
 
     epd.init()
-    epd.display(epd.getbuffer(image))
+    epd.display(epd.getbuffer(image_black), epd.getbuffer(image_red))
 
 
 # HOW TO MAKE THE BUTTONS DO STUDD
