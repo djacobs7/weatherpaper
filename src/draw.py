@@ -58,12 +58,12 @@ def draw_forecast( forecast_data ):
 
     # # https://github.com/waveshareteam/e-Paper/blob/60762ac5a3787ca7c3080d0e1f256a32ec3147e6/RaspberryPi_JetsonNano/python/examples/epd_2in7_test.py
     
-    # render_to_epaper(image, image_red)
+    render_to_epaper(image, image_red)
 
     image.save("output.bmp")
 
 
-# import epaper
+import epaper
 def render_to_epaper( image_black, image_red ):
     epd = epaper.epaper('epd2in7b').EPD()
 
